@@ -1,5 +1,7 @@
 #pragma once
+#ifdef USE_X11
 #include<X.h>
+#endif
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 
