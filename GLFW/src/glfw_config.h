@@ -35,7 +35,11 @@
 //========================================================================
 
 // Define this to 1 if building GLFW for X11
+#ifdef UNIX && !APPLE
 #define _GLFW_X11
+#elif defined WIN32
+#define _GLFW_WIN32
+#endif
 // Define this to 1 if building GLFW for Win32
 /* #undef _GLFW_WIN32 */
 // Define this to 1 if building GLFW for Cocoa
