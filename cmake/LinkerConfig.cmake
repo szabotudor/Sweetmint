@@ -15,7 +15,7 @@ if(UNIX AND NOT APPLE)
 	message(STATUS)
 	add_compile_definitions(USE_X11)
 elseif(WIN32)
-
+	# For windows, additional linking is not needed
 endif()
 
 if(SWEETMINT_SHARED)
