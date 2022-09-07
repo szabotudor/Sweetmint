@@ -26,6 +26,15 @@ namespace swm {
 		glfwSetFramebufferSizeCallback(window, framebufferCallback);
 	}
 
+	void Window::setClearColor(Color col) {
+		Colorf c{col};
+		glClearColor(c.r, c.g, c.b, c.a);
+	}
+
+	void Window::clear() {
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
+
 	bool Window::shouldClose() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();

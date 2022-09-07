@@ -18,6 +18,10 @@ namespace swm {
 
 		Window(uivec2 windowSize, const char* windowTitle);
 
+		void setClearColor(Color c);
+
+		void clear();
+
 		/**
 		 * @brief Checks whether the window close button, or 'Alt + F4' have been pressed
 		 * 
