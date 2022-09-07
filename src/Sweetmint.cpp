@@ -13,7 +13,7 @@ void framebufferCallback(GLFWwindow* window, int width, int height) {
 
 
 namespace swm {
-	Window::Window(uivec2 windowSize, char* windowTitle) {
+	Window::Window(uivec2 windowSize, const char* windowTitle) {
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);

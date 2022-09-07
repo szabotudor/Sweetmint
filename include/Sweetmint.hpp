@@ -16,7 +16,7 @@ namespace swm {
 		Window(const Window&) = delete;
 		void operator=(const Window&) = delete;
 
-		Window(uivec2 windowSize, char* windowTitle);
+		Window(uivec2 windowSize, const char* windowTitle);
 
 		/**
 		 * @brief Checks whether the window close button, or 'Alt + F4' have been pressed

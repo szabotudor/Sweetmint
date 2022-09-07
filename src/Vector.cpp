@@ -106,7 +106,7 @@ namespace swm {
 	template<uint8_t S, class T>
 	Vector<S, T> Vector<S, T>::normalized() {
 		T l = length();
-		Vector<S, T> v{};
+		Vector<S, T> v{*this};
 		for (uint8_t i = 0; i < S; i++)
 			v[i] /= l;
 		return v;
