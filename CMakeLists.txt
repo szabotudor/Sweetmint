@@ -5,7 +5,9 @@ include(cmake/GlfwConfig.cmake)
 include(cmake/SourcesConfig.cmake)
 
 add_library(sweetmint ${SOURCES})
-set_target_properties(sweetmint PROPERTIES PUBLIC_HEADER "include/Sweetmint.hpp")
+set_target_properties(sweetmint PROPERTIES
+    PUBLIC_HEADER "include/Sweetmint.hpp"
+)
 
 include(cmake/LinkerConfig.cmake)
 include(cmake/IncludeConfig.cmake)
