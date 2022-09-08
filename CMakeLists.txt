@@ -12,6 +12,9 @@ set_target_properties(sweetmint PROPERTIES
 include(cmake/LinkerConfig.cmake)
 include(cmake/IncludeConfig.cmake)
 
+message(STATUS "Building in ${CMAKE_BUILD_TYPE} mode")
+message(STATUS)
+
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
