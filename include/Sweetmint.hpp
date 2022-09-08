@@ -6,6 +6,8 @@
 #include<GLFW/glfw3.h>
 
 #include<Vector.hpp>
+#include<Shader.hpp>
+#include<Files.hpp>
 
 
 namespace swm {
@@ -18,8 +20,17 @@ namespace swm {
 
 		Window(uivec2 windowSize, const char* windowTitle);
 
+		/**
+		 * @brief Set the Color the window will be cleared to
+		 * 
+		 * @param c The color to set the property to
+		 */
 		void setClearColor(Color c);
 
+		/**
+		 * @brief Clear the window to the color selected with setClearColor()
+		 * 
+		 */
 		void clear();
 
 		/**
