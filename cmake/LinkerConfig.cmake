@@ -13,7 +13,7 @@ if(UNIX AND NOT APPLE)
 		math(EXPR LIB_ENUM "${LIB_ENUM} + 1")
 	endforeach()
 	message(STATUS)
-	add_compile_definitions(USE_X11)
+	add_compile_definitions(USE_X11 _GLFW_X11)
 elseif(WIN32)
 	# For windows, additional linking is not needed
 endif()
