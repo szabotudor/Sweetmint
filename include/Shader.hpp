@@ -6,19 +6,35 @@
 
 namespace swm {
 	class Shader {
+		uint32_t vertex = 0, fragment = 0;
+		
 		public:
 		Shader(const Shader&) = delete;
 		void operator=(const Shader&) = delete;
 
-		Shader();
+		/**
+		 * @brief Construct a new Shader object (If you wish not to load shader source right away, set both shader sources to NULL)
+		 * 
+		  * @param vertexShaderSource the source for the vertex shader
+		 * @param fragmentShaderSource the source for the fragmentr shader
+		 */
+		Shader(const char* vertexShaderSource, const char* fragmentShaderSource);
 
 		/**
-		 * @brief Load shader files, compile them, and bind them to a program
+		 * @brief Compile shader sources and combine them into a shader program
 		 * 
-		 * @param vertexShaderFile The file for the vertex shader source code
-		 * @param fragmentShaderFile The file for the fragment shader source code
+		 * @param vertexShaderSource the source for the vertex shader
+		 * @param fragmentShaderSource the source for the fragmentr shader
 		 */
-		void loadShader(const char* vertexShaderFile, const char* fragmentShaderFile);
+		void loadShader(const char* vertexShaderSource, const char* fragmentShaderSource);
+
+		/**
+		 * @brief Load vertex and fragment shader from files at the given path
+		 * 
+		 * @param path the path form the shader sources 
+		 * @param IMPORTANT(path) (the format for this path is "path/to/shader", which will be converted to "path/to/shader.vert" and "path/to/shader.frag")
+		 */
+		void loadShaderFile(const char* path);
 
 		~Shader();
 	};
