@@ -5,6 +5,12 @@
 
 
 namespace swm {
+	const GLenum GL_DRAW_MODE_LIST[3] = {
+		GL_STREAM_DRAW,
+		GL_STATIC_DRAW,
+		GL_DYNAMIC_DRAW
+	};
+
 	class Mesh {
 		public:
 		/**
@@ -22,8 +28,9 @@ namespace swm {
 		};
 
 		private:
+		
 		DrawMode drawMode{};
-		uint32_t VBO;
+		uint32_t VBO = 0;
 		
 		public:
 		Mesh(const Mesh&) = delete;
