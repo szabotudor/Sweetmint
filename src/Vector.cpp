@@ -1,6 +1,6 @@
 #include<Vector.hpp>
 #include<cstdint>
-#include<memory.h>
+#include<Utility.hpp>
 #include<math.h>
 
 
