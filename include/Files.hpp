@@ -45,7 +45,6 @@ namespace swm {
 
 		/**
 		 * @brief Closes the currently open file
-		 * 
 		 */
 		void close();
 

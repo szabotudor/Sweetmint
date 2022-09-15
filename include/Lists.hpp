@@ -42,7 +42,7 @@ namespace swm {
 			blocks = new DataBlock[1];
 			blocks[0].data = new T[blockSize];
 			blocks[0].fill = 0;
-			setMem(blocks[0].data, 0, blockSize * sizeof(T));
+			memset(blocks[0].data, 0, blockSize * sizeof(T));
 			numBlocks = 1;
 
 			forceAddElem(x...);

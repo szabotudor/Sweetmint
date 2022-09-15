@@ -1,4 +1,7 @@
 #include<Files.hpp>
+#include<Utility.hpp>
+#include<String.hpp>
+#include <ios>
 
 
 namespace swm {
@@ -19,15 +22,15 @@ namespace swm {
 
 		switch (openMode) {
 		case OpenMode::READ:
-			inFile = std::ifstream(file, std::ios::binary | std::ios::beg);
+			inFile = std::ifstream(file, std::ios_base::openmode::_S_bin);
 			break;
 		
 		case OpenMode::WRITE:
-			outFile = std::ofstream(file, std::ios::binary | std::ios::beg);
+			outFile = std::ofstream(file, std::ios_base::openmode::_S_bin);
 			break;
 		
 		case OpenMode::APPEND:
-			outFile = std::ofstream(file, std::ios::binary | std::ios::app);
+			outFile = std::ofstream(file, std::ios_base::openmode::_S_bin | std::ios_base::openmode::_S_app);
 			break;
 		
 		default:
@@ -87,7 +90,7 @@ namespace swm {
 	}
 
 	void File::write(char* data, size_t len, int64_t pos) {
-		if (isOpen) {
+		if (isOpen and (openMode == OpenMode::WRITE or openMode == OpenMode::APPEND)) {
 			if (pos >= 0)
 				outFile.seekp(pos);
 

@@ -11,12 +11,12 @@ namespace swm {
 
 	template<uint8_t S, class T>
 	Vector<S, T>::Vector(const Vector<S, T>& v) {
-		copyMem(data, v.data, S * sizeof(T));
+		memcpy(data, v.data, S * sizeof(T));
 	}
 
 	template<uint8_t S, class T>
 	void Vector<S, T>::operator=(const Vector<S, T>& v) {
-		copyMem(data, v.data, S * sizeof(T));
+		memcpy(data, v.data, S * sizeof(T));
 	}
 
 	template<uint8_t S, class T>
@@ -32,7 +32,7 @@ namespace swm {
 
 	template<uint8_t S, class T>
 	Vector<S, T>::Vector(T* data) {
-		copyMem(Vector<S, T>::data, data, S * sizeof(T));
+		memcpy(Vector<S, T>::data, data, S * sizeof(T));
 	}
 
 	//===========
