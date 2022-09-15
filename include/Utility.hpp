@@ -12,6 +12,13 @@ namespace swm {
 	 */
 	void memcpy(const void* dst, const void* src, size_t len);
 
+	/**
+	 * @brief Set a block of memory to a given uint8_t value
+	 * 
+	 * @param mem a pointer to the block to set
+	 * @param val the value to give to each byte in the memory
+	 * @param len the length of the memory block in bytes
+	 */
 	void memset(const void* mem, uint8_t val, size_t len);
 
 
