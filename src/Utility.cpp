@@ -2,7 +2,7 @@
 
 
 namespace swm {
-    void memcpy(const void* dst, const void* src, Size len) {
+    void copyMem(const void* dst, const void* src, Size len) {
 		if (dst > src)
 			while (len--)
 				*((uint8_t*)dst + len) = *((uint8_t*)dst + len);
@@ -14,7 +14,7 @@ namespace swm {
 			return;
 	}
 
-    void memset(const void* mem, uint8_t val, Size len) {
+    void setMem(const void* mem, uint8_t val, Size len) {
 		while(len--)
 			*((uint8_t*)mem + len) = val;
 	}

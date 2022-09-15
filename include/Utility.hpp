@@ -13,7 +13,7 @@ namespace swm {
 	 * @param src a pointer to the source memory address
 	 * @param len the number of bytes to copy
 	 */
-	void memcpy(const void* dst, const void* src, Size len);
+	void copyMem(const void* dst, const void* src, Size len);
 
 	/**
 	 * @brief Set a block of memory to a given uint8_t value
@@ -22,7 +22,7 @@ namespace swm {
 	 * @param val the value to give to each byte in the memory
 	 * @param len the length of the memory block in bytes
 	 */
-	void memset(const void* mem, uint8_t val, Size len);
+	void setMem(const void* mem, uint8_t val, Size len);
 
 
 	template<class T>
@@ -30,10 +30,10 @@ namespace swm {
 		T* oldArr = arr;
 		arr = new T[newSize];
 		if (newSize > oldSize) {
-			memset(arr + oldSize, 0, (newSize - oldSize) * sizeof(T));
+			setMem(arr + oldSize, 0, (newSize - oldSize) * sizeof(T));
 			newSize = oldSize;
 		}
-		memcpy(arr, oldArr, newSize * sizeof(T));
+		copyMem(arr, oldArr, newSize * sizeof(T));
 		delete[] oldArr;
 	}
 }
