@@ -3,6 +3,9 @@
 
 
 namespace swm {
+	using Size = uint64_t;
+
+
 	/**
 	 * @brief Copy data from one memory location to another
 	 * 
@@ -10,7 +13,7 @@ namespace swm {
 	 * @param src a pointer to the source memory address
 	 * @param len the number of bytes to copy
 	 */
-	void memcpy(const void* dst, const void* src, size_t len);
+	void memcpy(const void* dst, const void* src, Size len);
 
 	/**
 	 * @brief Set a block of memory to a given uint8_t value
@@ -19,11 +22,11 @@ namespace swm {
 	 * @param val the value to give to each byte in the memory
 	 * @param len the length of the memory block in bytes
 	 */
-	void memset(const void* mem, uint8_t val, size_t len);
+	void memset(const void* mem, uint8_t val, Size len);
 
 
 	template<class T>
-	void resizeArray(T*& arr, size_t oldSize, size_t newSize) {
+	void resizeArray(T*& arr, Size oldSize, Size newSize) {
 		T* oldArr = arr;
 		arr = new T[newSize];
 		if (newSize > oldSize) {
