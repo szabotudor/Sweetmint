@@ -1,5 +1,6 @@
 #pragma once
 #include<Utility.hpp>
+#include <cstdint>
 
 
 namespace swm {
@@ -26,6 +27,16 @@ namespace swm {
 	 */
 	void strrev(char* str);
 
+	/**
+	 * @brief Check if two C-style strings are equal
+	 * 
+	 * @param s1 the first strings
+	 * @param s2 the second string
+	 * @return true if the strings are equal
+	 * @return false if the strings contain any different letters, or are not the same size
+	 */
+	bool streq(const char* s1, const char* s2);
+
 
 	class String {
 		char* cstr = nullptr;
@@ -47,18 +58,15 @@ namespace swm {
 		 * 
 		 * @param c the character to set the string to
 		 */
-		String(const char c);
+		String(char& c);
 
-		/**
-		 * @brief Construct a String of a given length, filled with sapces
-		 * 
-		 * @param len the length of the string
-		 */
-		String(Size len);
+		String();
 
-		char& operator[](Size& i);
-		String operator+(String& s);
-		void operator+=(String& s);
+		char& operator[](Size i);
+		String operator+(String s);
+		void operator+=(String s);
+
+		bool operator==(String s);
 
 		/**
 		 * @brief Clear the string to an empty string
@@ -93,6 +101,25 @@ namespace swm {
 		 * @brief Reverse the string
 		 */
 		void reverse();
+
+		/**
+		 * @brief Extend the string, adding spaces at the end
+		 * 
+		 * @param i number of characters to add to the string
+		 */
+		void extend(Size i);
+
+		/**
+		 * @brief Return a pointer to the C version of the string
+		 */
+		char* getCString();
+
+		int32_t toInt32();
+		uint32_t toUint32();
+		int64_t toInt64();
+		uint64_t toUint64();
+		float toFloat();
+		double toDouble();
 
 		~String();
 	};
