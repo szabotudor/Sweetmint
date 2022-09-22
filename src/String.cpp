@@ -80,6 +80,7 @@ namespace swm {
 		len = 2;
 		cstr = new char[len];
 		cstr[0] = c;
+		cstr[1] = '\0';
 	}
 
 	String::String() {
@@ -99,8 +100,8 @@ namespace swm {
 
 	String String::operator+(String s) {
 		String res{*this};
-		res.extend(s.len);
-		memcpy(res.cstr + len - s.len, s.cstr, s.len);
+		res.extend(s.len - 1);
+		memcpy(res.cstr + len - 1, s.cstr, s.len);
 		return res;
 	}
 
@@ -114,7 +115,7 @@ namespace swm {
 
 	void String::clear() {
 		delete[] cstr;
-		cstr = new char[1]{'\0'};
+		cstr = new char[1];
 		len = 1;
 	}
 
@@ -153,7 +154,7 @@ namespace swm {
 	}
 
 	void String::extend(Size i) {
-		char* aux = new char[len + i]{' '};
+		char* aux = new char[len + i];
 		memcpy(aux, cstr, len - 1);
 		memset(aux + len - 1, ' ', i);
 		delete[] cstr;
@@ -261,6 +262,6 @@ namespace swm {
 	}
 
 	String::~String() {
-		clear();
+		delete[] cstr;
 	}
 }
