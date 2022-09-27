@@ -8,6 +8,7 @@
 #include<Vector.hpp>
 #include<Shader.hpp>
 #include<Files.hpp>
+#include<Color.hpp>
 
 
 namespace swm {
