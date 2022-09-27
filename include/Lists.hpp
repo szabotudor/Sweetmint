@@ -106,7 +106,7 @@ namespace swm {
 		 * @return the number of objects that match the given object
 		 */
 		uint64_t find(T x) {
-			
+			return 0;
 		}
 
 		~List();
