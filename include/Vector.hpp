@@ -39,7 +39,10 @@ namespace swm {
 		vec(T* data);
 		
 		template<class w_T>
-		vec(vec<S, w_T> v);
+		vec(vec<S, w_T> v) {
+			for (uint8_t i = 0; i < S; i++)
+				data[i] = static_cast<T>(v[i]);
+		}
 
 		template<class ... Ts>
 		vec(Ts ... x) {
@@ -91,7 +94,4 @@ namespace swm {
 	using uivec2_l = vec<2, uint64_t>;
 	using uivec3_l = vec<3, uint64_t>;
 	using uivec4_l = vec<4, uint64_t>;
-
-	using Color = vec<4, uint8_t>;
-	using fColor = vec<4, float>;
 }

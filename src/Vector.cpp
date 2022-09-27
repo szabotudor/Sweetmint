@@ -35,13 +35,6 @@ namespace swm {
 		memcpy(vec<S, T>::data, data, S * sizeof(T));
 	}
 
-	template<uint8_t S, class T>
-	template<class w_T>
-	vec<S, T>::vec(vec<S, w_T> v) {
-		for (uint8_t i = 0; i < S; i++)
-			data[i] = static_cast<T>(v[i]);
-	}
-
 	//===========
 	// OPERATORS
 	//===========
@@ -104,7 +97,7 @@ namespace swm {
 
 	template<uint8_t S, class T>
 	T vec<S, T>::length() {
-		T w = (T)0.0f;
+		T w = static_cast<T>(0.0f);
 		for (uint8_t i = 0; i < S; i++)
 			w = (T)sqrt(w * w + data[i] * data[i]);
 		return w;
@@ -136,3 +129,27 @@ namespace swm {
 		return res.length();
 	}
 }
+
+template class swm::vec<2, float>;
+template class swm::vec<3, float>;
+template class swm::vec<4, float>;
+
+template class swm::vec<2, double>;
+template class swm::vec<3, double>;
+template class swm::vec<4, double>;
+
+template class swm::vec<2, int32_t>;
+template class swm::vec<3, int32_t>;
+template class swm::vec<4, int32_t>;
+
+template class swm::vec<2, uint32_t>;
+template class swm::vec<3, uint32_t>;
+template class swm::vec<4, uint32_t>;
+
+template class swm::vec<2, int64_t>;
+template class swm::vec<3, int64_t>;
+template class swm::vec<4, int64_t>;
+
+template class swm::vec<2, uint64_t>;
+template class swm::vec<3, uint64_t>;
+template class swm::vec<4, uint64_t>;
