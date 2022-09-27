@@ -20,6 +20,7 @@ namespace swm {
 		File::openMode = openMode;
 		isOpen = true;
 
+		#if LINUX
 		switch (openMode) {
 		case OpenMode::READ:
 			inFile = std::ifstream(file, std::ios_base::openmode::_S_bin);
@@ -36,6 +37,24 @@ namespace swm {
 		default:
 			break;
 		}
+		#elif WIN32
+		switch (openMode) {
+		case OpenMode::READ:
+			inFile = std::ifstream(file, std::ios::binary);
+			break;
+		
+		case OpenMode::WRITE:
+			outFile = std::ofstream(file, std::ios::binary);
+			break;
+		
+		case OpenMode::APPEND:
+			outFile = std::ofstream(file, std::ios::binary | std::ios::app);
+			break;
+		
+		default:
+			break;
+		}
+		#endif
 	}
 
 	void File::close() {
