@@ -28,7 +28,7 @@ namespace swm {
 	}
 
 	void Window::setClearColor(Color col) {
-		Colorf c{col};
+		fColor c{col};
 		glClearColor(c.r, c.g, c.b, c.a);
 	}
 
