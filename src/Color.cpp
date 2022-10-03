@@ -25,7 +25,7 @@ namespace swm {
 		Color::r = w;
 		Color::g = w;
 		Color::b = w;
-		Color::a = 255Ui8;
+		Color::a = 255;
 	}
 
 	Color::Color(fColor c) {
