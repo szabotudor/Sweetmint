@@ -15,6 +15,11 @@ namespace swm {
 	}
 
 	template<uint8_t S, class T>
+	vec<S, T>::vec(vec<S, T>* v) {
+		memcpy(data, v->data, S * sizeof(T));
+	}
+
+	template<uint8_t S, class T>
 	void vec<S, T>::operator=(const vec<S, T>& v) {
 		memcpy(data, v.data, S * sizeof(T));
 	}
@@ -42,28 +47,28 @@ namespace swm {
 	template<uint8_t S, class T>
 	vec<S, T> vec<S, T>::operator+(vec<S, T> v) {
 		for (uint8_t i = 0; i < S; i++)
-			v.data[i] += data[i];
+			v.data[i] = data[i] + v.data[i];
 		return v;
 	}
 
 	template<uint8_t S, class T>
 	vec<S, T> vec<S, T>::operator-(vec<S, T> v) {
 		for (uint8_t i = 0; i < S; i++)
-			v.data[i] -= data[i];
+			v.data[i] = data[i] - v.data[i];
 		return v;
 	}
 
 	template<uint8_t S, class T>
 	vec<S, T> vec<S, T>::operator*(vec<S, T> v) {
 		for (uint8_t i = 0; i < S; i++)
-			v.data[i] *= data[i];
+			v.data[i] = data[i] * v.data[i];
 		return v;
 	}
 
 	template<uint8_t S, class T>
 	vec<S, T> vec<S, T>::operator/(vec<S, T> v) {
 		for (uint8_t i = 0; i < S; i++)
-			v.data[i] /= data[i];
+			v.data[i] = data[i] * v.data[i];
 		return v;
 	}
 
@@ -99,8 +104,8 @@ namespace swm {
 	T vec<S, T>::length() {
 		T w = static_cast<T>(0.0f);
 		for (uint8_t i = 0; i < S; i++)
-			w = (T)sqrt(w * w + data[i] * data[i]);
-		return w;
+			w += data[i] * data[i];
+		return (T)sqrt(w);
 	}
 
 	template<uint8_t S, class T>
@@ -119,14 +124,20 @@ namespace swm {
 
 	template<uint8_t S, class T>
 	vec<S, T> vec<S, T>::directionTo(vec<S, T> v) {
-		vec<S, T> res = v - (*this);
-		return res.normalized();
+		return (v - (*this)).normalized();
 	}
 
 	template<uint8_t S, class T>
 	T vec<S, T>::distanceTo(vec<S, T> v) {
-		vec<S, T> res = v - (*this);
-		return res.length();
+		return (v - (*this)).length();
+	}
+
+	template<uint8_t S, class T>
+	T vec<S, T>::dot(vec<S, T> v) {
+		T res = 0.0f;
+		for (uint8_t i = 0; i < S; i++)
+			res += data[i] * data[i];
+		return res;
 	}
 }
 
