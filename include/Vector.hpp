@@ -11,12 +11,12 @@ namespace swm {
 
 	template<uint8_t S, class T = float>
 	class vec {
-		void init(uint8_t i, T x) {
+		void init(uint8_t& i, T x) {
 			data[i] = x;
 		}
 
 		template<class ... Ts>
-		void init(uint8_t i, T x, Ts ... next) {
+		void init(uint8_t& i, T x, Ts ... next) {
 			data[i] = x;
 			init(++i, next...);
 		}
@@ -25,7 +25,6 @@ namespace swm {
 		T data[S];
 
 		vec(const vec<S, T>& v);
-		vec(vec<S, T>* v);
 		void operator=(const vec<S, T>& v);
 		inline T& operator[](uint8_t i);
 
@@ -41,18 +40,19 @@ namespace swm {
 		template<class ... Ts>
 		vec(Ts ... x) {
 			static_assert(sizeof...(Ts) <= S, "Too many arguments for vector init");
-			init(0, x...);
+			uint8_t i = 0;
+			init(i, x...);
 		}
 
-		inline vec<S, T> operator+(vec<S, T> v);
-		inline vec<S, T> operator-(vec<S, T> v);
-		inline vec<S, T> operator*(vec<S, T> v);
-		inline vec<S, T> operator/(vec<S, T> v);
+		inline vec<S, T> operator+(vec<S, T>& v);
+		inline vec<S, T> operator-(vec<S, T>& v);
+		inline vec<S, T> operator*(vec<S, T>& v);
+		inline vec<S, T> operator/(vec<S, T>& v);
 
-		inline void operator+=(vec<S, T> v);
-		inline void operator-=(vec<S, T> v);
-		inline void operator*=(vec<S, T> v);
-		inline void operator/=(vec<S, T> v);
+		inline void operator+=(vec<S, T>& v);
+		inline void operator-=(vec<S, T>& v);
+		inline void operator*=(vec<S, T>& v);
+		inline void operator/=(vec<S, T>& v);
 
 		T length();
 		vec<S, T> normalized();
@@ -63,18 +63,13 @@ namespace swm {
 	};
 
 
-	//==========================
-	// STANDARD CLASS FUNCTIONS
-	//==========================
+	//=============================
+	// CLASS INITIALIZER FUNCTIONS
+	//=============================
 
 	template<uint8_t S, class T>
 	vec<S, T>::vec(const vec<S, T>& v) {
 		memcpy(data, v.data, S * sizeof(T));
-	}
-
-	template<uint8_t S, class T>
-	vec<S, T>::vec(vec<S, T>* v) {
-		memcpy(data, v->data, S * sizeof(T));
 	}
 
 	template<uint8_t S, class T>
@@ -84,7 +79,10 @@ namespace swm {
 
 	template<uint8_t S, class T>
 	T& vec<S, T>::operator[](uint8_t i) {
-		return data[i];
+		if (i < S)
+			return data[i];
+		else
+			throw;
 	}
 
 	template<uint8_t S, class T>
@@ -103,28 +101,28 @@ namespace swm {
 	//===========
 
 	template<uint8_t S, class T>
-	vec<S, T> vec<S, T>::operator+(vec<S, T> v) {
+	vec<S, T> vec<S, T>::operator+(vec<S, T>& v) {
 		for (uint8_t i = 0; i < S; i++)
 			v.data[i] = data[i] + v.data[i];
 		return v;
 	}
 
 	template<uint8_t S, class T>
-	vec<S, T> vec<S, T>::operator-(vec<S, T> v) {
+	vec<S, T> vec<S, T>::operator-(vec<S, T>& v) {
 		for (uint8_t i = 0; i < S; i++)
 			v.data[i] = data[i] - v.data[i];
 		return v;
 	}
 
 	template<uint8_t S, class T>
-	vec<S, T> vec<S, T>::operator*(vec<S, T> v) {
+	vec<S, T> vec<S, T>::operator*(vec<S, T>& v) {
 		for (uint8_t i = 0; i < S; i++)
 			v.data[i] = data[i] * v.data[i];
 		return v;
 	}
 
 	template<uint8_t S, class T>
-	vec<S, T> vec<S, T>::operator/(vec<S, T> v) {
+	vec<S, T> vec<S, T>::operator/(vec<S, T>& v) {
 		for (uint8_t i = 0; i < S; i++)
 			v.data[i] = data[i] * v.data[i];
 		return v;
@@ -135,22 +133,22 @@ namespace swm {
 	//================
 
 	template<uint8_t S, class T>
-	void vec<S, T>::operator+=(vec<S, T> v) {
+	void vec<S, T>::operator+=(vec<S, T>& v) {
 		*this = *this + v;
 	}
 
 	template<uint8_t S, class T>
-	void vec<S, T>::operator-=(vec<S, T> v) {
+	void vec<S, T>::operator-=(vec<S, T>& v) {
 		*this = *this - v;
 	}
 
 	template<uint8_t S, class T>
-	void vec<S, T>::operator*=(vec<S, T> v) {
+	void vec<S, T>::operator*=(vec<S, T>& v) {
 		*this = *this * v;
 	}
 
 	template<uint8_t S, class T>
-	void vec<S, T>::operator/=(vec<S, T> v) {
+	void vec<S, T>::operator/=(vec<S, T>& v) {
 		*this = *this / v;
 	}
 
@@ -165,13 +163,12 @@ namespace swm {
 
 	template<uint8_t S, class T>
 	vec<S, T> vec<S, T>::normalized() {
-		T l = length();
-		return *this / l;
+		return *this / length();
 	}
 
 	template<uint8_t S, class T>
 	void vec<S, T>::normalize() {
-		*this = this->normalized();
+		*this = this / length();
 	}
 
 	template<uint8_t S, class T>
@@ -193,9 +190,9 @@ namespace swm {
 	}
 
 
-	//====================================
-	// SPECIFIC VECTOR CLASS DECLARATIONS
-	//====================================
+	//===================================
+	// SPECIFIC VECTOR CLASS DEFINITIONS
+	//===================================
 
 	class vec2 : public vec<2, float> {
 		public:
@@ -451,7 +448,6 @@ namespace swm {
 	using ivec2 = i32vec2;
 	using ivec3 = i32vec3;
 	using ivec3 = i32vec3;
-
 	using uivec2 = ui32vec2;
 	using uivec3 = ui32vec3;
 	using uivec3 = ui32vec3;
