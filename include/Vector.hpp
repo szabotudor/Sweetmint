@@ -27,7 +27,7 @@ namespace swm {
 		vec(const vec<S, T>& v);
 		vec(vec<S, T>* v);
 		void operator=(const vec<S, T>& v);
-		T& operator[](uint8_t i);
+		inline T& operator[](uint8_t i);
 
 		vec(T w = (T)0.0f);
 		vec(T* data);
@@ -44,15 +44,15 @@ namespace swm {
 			init(0, x...);
 		}
 
-		vec<S, T> operator+(vec<S, T> v);
-		vec<S, T> operator-(vec<S, T> v);
-		vec<S, T> operator*(vec<S, T> v);
-		vec<S, T> operator/(vec<S, T> v);
+		inline vec<S, T> operator+(vec<S, T> v);
+		inline vec<S, T> operator-(vec<S, T> v);
+		inline vec<S, T> operator*(vec<S, T> v);
+		inline vec<S, T> operator/(vec<S, T> v);
 
-		void operator+=(vec<S, T> v);
-		void operator-=(vec<S, T> v);
-		void operator*=(vec<S, T> v);
-		void operator/=(vec<S, T> v);
+		inline void operator+=(vec<S, T> v);
+		inline void operator-=(vec<S, T> v);
+		inline void operator*=(vec<S, T> v);
+		inline void operator/=(vec<S, T> v);
 
 		T length();
 		vec<S, T> normalized();
@@ -61,6 +61,136 @@ namespace swm {
 		T distanceTo(vec<S, T> v);
 		T dot(vec<S, T> v);
 	};
+
+
+	//==========================
+	// STANDARD CLASS FUNCTIONS
+	//==========================
+
+	template<uint8_t S, class T>
+	vec<S, T>::vec(const vec<S, T>& v) {
+		memcpy(data, v.data, S * sizeof(T));
+	}
+
+	template<uint8_t S, class T>
+	vec<S, T>::vec(vec<S, T>* v) {
+		memcpy(data, v->data, S * sizeof(T));
+	}
+
+	template<uint8_t S, class T>
+	void vec<S, T>::operator=(const vec<S, T>& v) {
+		memcpy(data, v.data, S * sizeof(T));
+	}
+
+	template<uint8_t S, class T>
+	T& vec<S, T>::operator[](uint8_t i) {
+		return data[i];
+	}
+
+	template<uint8_t S, class T>
+	vec<S, T>::vec(T w) {
+		for (uint8_t i = 0; i < S; i++)
+			data[i] = w;
+	}
+
+	template<uint8_t S, class T>
+	vec<S, T>::vec(T* data) {
+		memcpy(vec<S, T>::data, data, S * sizeof(T));
+	}
+
+	//===========
+	// OPERATORS
+	//===========
+
+	template<uint8_t S, class T>
+	vec<S, T> vec<S, T>::operator+(vec<S, T> v) {
+		for (uint8_t i = 0; i < S; i++)
+			v.data[i] = data[i] + v.data[i];
+		return v;
+	}
+
+	template<uint8_t S, class T>
+	vec<S, T> vec<S, T>::operator-(vec<S, T> v) {
+		for (uint8_t i = 0; i < S; i++)
+			v.data[i] = data[i] - v.data[i];
+		return v;
+	}
+
+	template<uint8_t S, class T>
+	vec<S, T> vec<S, T>::operator*(vec<S, T> v) {
+		for (uint8_t i = 0; i < S; i++)
+			v.data[i] = data[i] * v.data[i];
+		return v;
+	}
+
+	template<uint8_t S, class T>
+	vec<S, T> vec<S, T>::operator/(vec<S, T> v) {
+		for (uint8_t i = 0; i < S; i++)
+			v.data[i] = data[i] * v.data[i];
+		return v;
+	}
+
+	//================
+	// SELF OPERATORS
+	//================
+
+	template<uint8_t S, class T>
+	void vec<S, T>::operator+=(vec<S, T> v) {
+		*this = *this + v;
+	}
+
+	template<uint8_t S, class T>
+	void vec<S, T>::operator-=(vec<S, T> v) {
+		*this = *this - v;
+	}
+
+	template<uint8_t S, class T>
+	void vec<S, T>::operator*=(vec<S, T> v) {
+		*this = *this * v;
+	}
+
+	template<uint8_t S, class T>
+	void vec<S, T>::operator/=(vec<S, T> v) {
+		*this = *this / v;
+	}
+
+	//===================
+	// SPECIAL FUNCTIONS
+	//===================
+
+	template<uint8_t S, class T>
+	T vec<S, T>::length() {
+		return (T)sqrt(this->dot(*this));
+	}
+
+	template<uint8_t S, class T>
+	vec<S, T> vec<S, T>::normalized() {
+		T l = length();
+		return *this / l;
+	}
+
+	template<uint8_t S, class T>
+	void vec<S, T>::normalize() {
+		*this = this->normalized();
+	}
+
+	template<uint8_t S, class T>
+	vec<S, T> vec<S, T>::directionTo(vec<S, T> v) {
+		return (v - (*this)).normalized();
+	}
+
+	template<uint8_t S, class T>
+	T vec<S, T>::distanceTo(vec<S, T> v) {
+		return (v - (*this)).length();
+	}
+
+	template<uint8_t S, class T>
+	T vec<S, T>::dot(vec<S, T> v) {
+		T res = 0.0f;
+		for (uint8_t i = 0; i < S; i++)
+			res += data[i] * v.data[i];
+		return res;
+	}
 
 
 	//====================================
@@ -117,14 +247,114 @@ namespace swm {
 			& w = data[3];
 	};
 
-	class ivec2 : public vec<2, int32_t> {
+	class i8vec2 : public vec<2, int8_t> {
+		public:
+		using vec<2, int8_t>::vec;
+
+		int8_t& x = data[0],
+			& y = data[1];
+	};
+	class i8vec3 : public vec<3, int8_t> {
+		public:
+		using vec<3, int8_t>::vec;
+
+		int8_t& x = data[0],
+			& y = data[1],
+			& z = data[2];
+	};
+	class i8vec4 : public vec<4, int8_t> {
+		public:
+		using vec<4, int8_t>::vec;
+
+		int8_t& x = data[0],
+			& y = data[1],
+			& z = data[2],
+			& w = data[3];
+	};
+
+	class ui8vec2 : public vec<2, uint8_t> {
+		public:
+		using vec<2, uint8_t>::vec;
+
+		uint8_t& x = data[0],
+			& y = data[1];
+	};
+	class ui8vec3 : public vec<3, uint8_t> {
+		public:
+		using vec<3, uint8_t>::vec;
+
+		uint8_t& x = data[0],
+			& y = data[1],
+			& z = data[2];
+	};
+	class ui8vec4 : public vec<4, uint8_t> {
+		public:
+		using vec<4, uint8_t>::vec;
+
+		uint8_t& x = data[0],
+			& y = data[1],
+			& z = data[2],
+			& w = data[3];
+	};
+
+	class i16vec2 : public vec<2, int16_t> {
+		public:
+		using vec<2, int16_t>::vec;
+
+		int16_t& x = data[0],
+			& y = data[1];
+	};
+	class i16vec3 : public vec<3, int16_t> {
+		public:
+		using vec<3, int16_t>::vec;
+
+		int16_t& x = data[0],
+			& y = data[1],
+			& z = data[2];
+	};
+	class i16vec4 : public vec<4, int16_t> {
+		public:
+		using vec<4, int16_t>::vec;
+
+		int16_t& x = data[0],
+			& y = data[1],
+			& z = data[2],
+			& w = data[3];
+	};
+
+	class ui16vec2 : public vec<2, uint16_t> {
+		public:
+		using vec<2, uint16_t>::vec;
+
+		uint16_t& x = data[0],
+			& y = data[1];
+	};
+	class ui16vec3 : public vec<3, uint16_t> {
+		public:
+		using vec<3, uint16_t>::vec;
+
+		uint16_t& x = data[0],
+			& y = data[1],
+			& z = data[2];
+	};
+	class ui16vec4 : public vec<4, uint16_t> {
+		public:
+		using vec<4, uint16_t>::vec;
+
+		uint16_t& x = data[0],
+			& y = data[1],
+			& z = data[2],
+			& w = data[3];
+	};
+
+	class i32vec2 : public vec<2, int32_t> {
 		public:
 		using vec<2, int32_t>::vec;
 
 		int32_t& x = data[0],
 			& y = data[1];
 	};
-	class ivec3 : public vec<3, int32_t> {
+	class i32vec3 : public vec<3, int32_t> {
 		public:
 		using vec<3, int32_t>::vec;
 
@@ -132,7 +362,7 @@ namespace swm {
 			& y = data[1],
 			& z = data[2];
 	};
-	class ivec4 : public vec<4, int32_t> {
+	class i32vec4 : public vec<4, int32_t> {
 		public:
 		using vec<4, int32_t>::vec;
 
@@ -142,14 +372,14 @@ namespace swm {
 			& w = data[3];
 	};
 
-	class uivec2 : public vec<2, uint32_t> {
+	class ui32vec2 : public vec<2, uint32_t> {
 		public:
 		using vec<2, uint32_t>::vec;
 
 		uint32_t& x = data[0],
 			& y = data[1];
 	};
-	class uivec3 : public vec<3, uint32_t> {
+	class ui32vec3 : public vec<3, uint32_t> {
 		public:
 		using vec<3, uint32_t>::vec;
 
@@ -157,7 +387,7 @@ namespace swm {
 			& y = data[1],
 			& z = data[2];
 	};
-	class uivec4 : public vec<4, uint32_t> {
+	class ui32vec4 : public vec<4, uint32_t> {
 		public:
 		using vec<4, uint32_t>::vec;
 
@@ -216,4 +446,13 @@ namespace swm {
 			& z = data[2],
 			& w = data[3];
 	};
+
+
+	using ivec2 = i32vec2;
+	using ivec3 = i32vec3;
+	using ivec3 = i32vec3;
+
+	using uivec2 = ui32vec2;
+	using uivec3 = ui32vec3;
+	using uivec3 = ui32vec3;
 }
