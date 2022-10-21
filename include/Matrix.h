@@ -244,8 +244,8 @@ namespace swm {
 
 	using imat2 = i32mat2;
 	using imat3 = i32mat3;
-	using imat3 = i32mat3;
+	using imat4 = i32mat4;
 	using uimat2 = ui32mat2;
 	using uimat3 = ui32mat3;
-	using uimat3 = ui32mat3;
+	using uimat4 = ui32mat4;
 }
