@@ -1,15 +1,19 @@
 #pragma once
+
 #ifdef USE_X11
 #include<X.h>
 #endif
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
 
-#include<Vector.hpp>
-#include<Shader.hpp>
-#include<Files.hpp>
-#include<Color.hpp>
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
+#include <cstdint>
+
+#include "Utility.h"
+#include "Vector.h"
+#include "Matrix.h"
+#include "Color.h"
+#include "String.h"
 
 namespace swm {
 	class Window {

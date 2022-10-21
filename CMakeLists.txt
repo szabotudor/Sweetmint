@@ -6,7 +6,7 @@ include(cmake/SourcesConfig.cmake)
 
 add_library(sweetmint ${SOURCES})
 set_target_properties(sweetmint PROPERTIES
-    PUBLIC_HEADER "include/Sweetmint.hpp"
+    PUBLIC_HEADER "include/Sweetmint.h"
 )
 
 include(cmake/LinkerConfig.cmake)

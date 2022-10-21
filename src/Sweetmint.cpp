@@ -2,10 +2,7 @@
 #include<X.h>
 #endif
 
-#include<Sweetmint.hpp>
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
-#include<Lists.hpp>
+#include "Sweetmint.h"
 
 
 void framebufferCallback(GLFWwindow* window, int width, int height) {

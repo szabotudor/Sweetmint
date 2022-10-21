@@ -1,7 +1,4 @@
-#include<String.hpp>
-#include<Utility.hpp>
-#include <cstdint>
-#include<iostream>
+#include "Sweetmint.h"
 
 
 namespace swm {

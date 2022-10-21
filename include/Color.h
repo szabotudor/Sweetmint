@@ -1,8 +1,8 @@
 #pragma once
-#include "Utility.hpp"
 
 
 namespace swm {
+	class Color;
 	class fColor;
 
 	class Color {
