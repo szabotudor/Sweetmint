@@ -1,4 +1,4 @@
-#include "Utility.h"
+#pragma once
 #include "Vector.h"
 #include <cstdint>
 
@@ -24,6 +24,7 @@ namespace swm {
 		vec<i, T> data[j];
 
 		mat(const mat<i, j, T>& m);
+		mat(mat<i, j, T>& m);
 		void operator=(const mat<i, j, T>& m);
 		vec<i, T>& operator[](uint8_t x);
 
@@ -33,7 +34,7 @@ namespace swm {
 		template<class T_w>
 		mat(mat<i, j, T_w>& m) {
 			for (uint8_t x = 0; x < i; x++)
-				data[x] = static_cast<T>(m.data[x]);
+				((T*)(data))[x] = ((T*)(m.data))[x];
 		}
 
 		template<class ... Ts>
@@ -46,6 +47,7 @@ namespace swm {
 		inline mat<i, j, T> operator+(mat<i, j, T>& m);
 		inline mat<i, j, T> operator-(mat<i, j, T>& m);
 		inline mat<i, i, T> operator*(mat<j, i, T>& m);
+		inline vec<i, T> operator*(vec<i, T>& v);
 
 		inline mat<i, j, T> operator+(T& w);
 		inline mat<i, j, T> operator-(T& w);
@@ -68,6 +70,12 @@ namespace swm {
 
 	template<uint8_t i, uint8_t j, class T>
 	mat<i, j, T>::mat(const mat<i, j, T>& m) {
+		for (uint8_t x = 0; x < i; x++)
+			data[x] = m.data[x];
+	}
+
+	template<uint8_t i, uint8_t j, class T>
+	mat<i, j, T>::mat(mat<i, j, T>& m) {
 		for (uint8_t x = 0; x < i; x++)
 			data[x] = m.data[x];
 	}
@@ -106,18 +114,18 @@ namespace swm {
 
 	template<uint8_t i, uint8_t j, class T>
 	mat<i, j, T> mat<i, j, T>::operator+(mat<i, j, T>& m) {
-		for (uint8_t x = 0; x < i; x++)
-			for (uint8_t y = 0; y < j; y++)
-				m.data[x][y] = data[x][y] + m.data[x][y];
-		return m;
+		mat<i, j, T> res{*this};
+		for (uint8_t x = 0; x < i * j; x++)
+			((T*)(res.data))[x] += ((T*)(m.data))[x];
+		return res;
 	}
 
 	template<uint8_t i, uint8_t j, class T>
 	mat<i, j, T> mat<i, j, T>::operator-(mat<i, j, T>& m) {
-		for (uint8_t x = 0; x < i; x++)
-			for (uint8_t y = 0; y < j; y++)
-				m.data[x][y] = data[x][y] - m.data[x][y];
-		return m;
+		mat<i, j, T> res{*this};
+		for (uint8_t x = 0; x < i * j; x++)
+			((T*)(res.data))[x] -= ((T*)(m.data))[x];
+		return res;
 	}
 
 	template<uint8_t i, uint8_t j, class T>
@@ -127,42 +135,47 @@ namespace swm {
 			for (uint8_t y = 0; y < i; y++)
 				for (uint8_t n = 0; n < j; n++)
 					res[x][y] += data[x][n] * m.data[n][y];
-		return m;
+		return res;
+	}
+
+	template<uint8_t i, uint8_t j, class T>
+	vec<i, T> mat<i, j, T>::operator*(vec<i, T>& v) {
+		vec<i, T> res{(T)0};
+		for (uint8_t x = 0; x < i; x++)
+			for (uint8_t y = 0; y < j; y++)
+				res[x] += data[x][y] * v[y];
+		return res;
 	}
 
 	template<uint8_t i, uint8_t j, class T>
 	mat<i, j, T> mat<i, j, T>::operator+(T& w) {
 		mat<i, j, T> res{*this};
-		for (uint8_t x = 0; x < i; x++)
-			for (uint8_t y = 0; y < j; y++)
-				this[x][y] += w;
+		for (uint8_t x = 0; x < i * j; x++)
+			((T*)(this->data))[x] += w;
 		return res;
 	}
 
 	template<uint8_t i, uint8_t j, class T>
 	mat<i, j, T> mat<i, j, T>::operator-(T& w) {
 		mat<i, j, T> res{*this};
-		for (uint8_t x = 0; x < i; x++)
-			for (uint8_t y = 0; y < j; y++)
-				this[x][y] -= w;
+		for (uint8_t x = 0; x < i * j; x++)
+			((T*)(this->data))[x] -= w;
 		return res;
 	}
 
 	template<uint8_t i, uint8_t j, class T>
 	mat<i, j, T> mat<i, j, T>::operator*(T& w) {
 		mat<i, j, T> res{*this};
-		for (uint8_t x = 0; x < i; x++)
-			for (uint8_t y = 0; y < j; y++)
-				this[x][y] *= w;
+		for (uint8_t x = 0; x < i * j; x++)
+			((T*)(this->data))[x] *= w;
 		return res;
 	}
 
 	template<uint8_t i, uint8_t j, class T>
 	mat<i, j, T> mat<i, j, T>::operator/(T& w) {
 		mat<i, j, T> res{*this};
-		for (uint8_t x = 0; x < i; x++)
-			for (uint8_t y = 0; y < j; y++)
-				this[x][y] /= w;
+		for (uint8_t x = 0; x < i * j; x++)
+			((T*)(this->data))[x] /= w;
 		return res;
 	}
 

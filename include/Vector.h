@@ -1,5 +1,5 @@
 #pragma once
-#include<cstdint>
+#include <cstdint>
 
 
 namespace swm {
@@ -23,6 +23,7 @@ namespace swm {
 		T data[S];
 
 		vec(const vec<S, T>& v);
+		vec(vec<S, T>& v);
 		void operator=(const vec<S, T>& v);
 		inline T& operator[](uint8_t i);
 
@@ -67,6 +68,11 @@ namespace swm {
 
 	template<uint8_t S, class T>
 	vec<S, T>::vec(const vec<S, T>& v) {
+		memcpy(data, v.data, S * sizeof(T));
+	}
+
+	template<uint8_t S, class T>
+	vec<S, T>::vec(vec<S, T>& v) {
 		memcpy(data, v.data, S * sizeof(T));
 	}
 
